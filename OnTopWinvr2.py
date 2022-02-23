@@ -6,6 +6,7 @@ import winrt.windows.ui.notifications as notifications
 import winrt.windows.data.xml.dom as dom
 from pynput import keyboard
 import os
+import time
 nManager = notifications.ToastNotificationManager
 notifier = nManager.create_toast_notifier("Chrome")
 #os.system('taskkill /f /im  ontopwin.exe')
@@ -47,6 +48,7 @@ def LockWindow():
     Size = win32gui.GetWindowRect(hwnd)
     Notification("*LockOnTop*",f"Window {nameWindow}")
     win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, 0, 0, Size[2], Size[3], 1)
+    time.sleep(3)
 
 def UnLockWindow():
     nameWindow = get_active_executable_name()
@@ -55,6 +57,7 @@ def UnLockWindow():
     Size = win32gui.GetWindowRect(hwnd)
     win32gui.SetWindowPos(hwnd, win32con.HWND_NOTOPMOST, 0, 0, Size[2], Size[3], 1)
     Notification("*UnLock*", f"Window {nameWindow}")
+    time.sleep(3)
 
 
 # The key combinations to look for
@@ -70,6 +73,7 @@ def execute(key):
         LockWindow()
     if key == 90:
         UnLockWindow()
+
 
 
 # The currently pressed keys (initially empty)
@@ -103,7 +107,11 @@ def on_press(key):
 def on_release(key):
     """ When a key is released """
     vk = get_vk(key)  # Get the key's vk
-    pressed_vks.remove(vk)  # Remove it from the set of currently pressed keys
+    try:
+        pressed_vks.remove(vk)
+    except KeyError:
+        pressed_vks.clear()
+        # Remove it from the set of currently pressed keysAZ
 
 
 with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
