@@ -4,3 +4,4 @@
 <li>shift+a - lock on top</li>
 <li>shift+z - unlock - remove from "top"&nbsp;</li>
 </ul>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://i.stack.imgur.com/wmNGf.gif" alt="" /></p>
