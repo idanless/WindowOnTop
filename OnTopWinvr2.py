@@ -7,6 +7,7 @@ import winrt.windows.data.xml.dom as dom
 from pynput import keyboard
 import os
 import time
+import win32con
 nManager = notifications.ToastNotificationManager
 notifier = nManager.create_toast_notifier("Chrome")
 #os.system('taskkill /f /im  ontopwin.exe')
@@ -47,7 +48,8 @@ def LockWindow():
     hwnd = win32gui.FindWindow(win32gui.GetClassName(win32gui.GetForegroundWindow()), None)
     Size = win32gui.GetWindowRect(hwnd)
     Notification("*LockOnTop*",f"Window {nameWindow}")
-    win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, 0, 0, Size[2], Size[3], 1)
+    win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, 0, 0, Size[2], Size[3], win32con.SWP_NOMOVE + win32con.SWP_NOSIZEAZ)
+    #win32con.SWP_NOMOVE + win32con.SWP_NOSIZE
     time.sleep(3)
 
 def UnLockWindow():
@@ -55,7 +57,7 @@ def UnLockWindow():
     ClassWindows = win32gui.GetClassName(win32gui.GetForegroundWindow())
     hwnd = win32gui.FindWindow(win32gui.GetClassName(win32gui.GetForegroundWindow()), None)
     Size = win32gui.GetWindowRect(hwnd)
-    win32gui.SetWindowPos(hwnd, win32con.HWND_NOTOPMOST, 0, 0, Size[2], Size[3], 1)
+    win32gui.SetWindowPos(hwnd, win32con.HWND_NOTOPMOST, 0, 0, Size[2], Size[3], win32con.SWP_NOMOVE + win32con.SWP_NOSIZE)
     Notification("*UnLock*", f"Window {nameWindow}")
     time.sleep(3)
 
